@@ -13,7 +13,7 @@ public class SoundManager {
 
 	/** enumeration of existing sounds **/
 	public enum SoundFX {
-		BULLET, SCREAM, POP, FONDO, TILIN
+		POP_CORK, BUBBLE_POP, FONDO
 	};
 
 	private int soundsamount = 6;
@@ -50,11 +50,9 @@ public class SoundManager {
 	 */
 	private void initSoundMap(Context context) {
 		soundMap = new HashMap<SoundFX, Integer>();
-		soundMap.put(SoundFX.BULLET, soundPool.load(context, R.raw.bulletbody, 1));
-		soundMap.put(SoundFX.SCREAM, soundPool.load(context, R.raw.popcork, 1));
-		soundMap.put(SoundFX.POP, soundPool.load(context, R.raw.bubble_pop, 1));
+		soundMap.put(SoundFX.POP_CORK, soundPool.load(context, R.raw.popcork, 1));
+		soundMap.put(SoundFX.BUBBLE_POP, soundPool.load(context, R.raw.bubble_pop, 1));
 		soundMap.put(SoundFX.FONDO, soundPool.load(context, R.raw.fish, 1));
-		soundMap.put(SoundFX.TILIN, soundPool.load(context, R.raw.vips_eso_tilin, 1));
 	}
 
 	/**

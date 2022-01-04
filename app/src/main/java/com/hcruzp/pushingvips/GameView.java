@@ -195,7 +195,7 @@ public class GameView extends SurfaceView {
                     Sprite sprite = sprites.get(i);
                     if (sprite.isCollision(x, y)) {
                         if (sprite.getSpriteType() == Sprite.TYPE_BAD) {
-                            sm.playSound(SoundFX.POP, 1, 1, 0);
+                            sm.playSound(SoundFX.BUBBLE_POP, 1, 1, 0);
                             killedBad++;
                             if (killedBad % 5 == 0) {
                                 addVIPSprite();
@@ -204,7 +204,7 @@ public class GameView extends SurfaceView {
                             temps.add(new TempSprite(temps, this, x, y, bmpDrop));
                         } else if (sprite.getSpriteType() == Sprite.TYPE_GOOD) {
                             killedGood++;
-                            sm.playSound(SoundFX.SCREAM, 1, 1, 0);
+                            sm.playSound(SoundFX.POP_CORK, 1, 1, 0);
                             vibrator.vibrate(5);
                             addAllBadSprites();
 
