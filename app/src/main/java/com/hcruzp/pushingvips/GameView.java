@@ -29,6 +29,13 @@ import com.hcruzp.pushingvips.SoundManager.SoundFX;
 
 public class GameView extends SurfaceView {
 
+    private static String HARD_VIP_HIGH = "vips_eso_tilin_32_g";
+    private static String HARD_VIP_MIDDLE = "vips_ni_merga_32_g";
+    private static String HARD_VIP_LOW = "vips_ami_meencanta_32_g";
+    private static int hardVipHighLimit = 4;
+    private static int hardVipMiddleLimit = 3;
+    private static int hardVipLowLimit = 2;
+
     private SurfaceHolder holder;
     private GameLoopThread gameLoopThread;
     private List<Sprite> sprites = new ArrayList<Sprite>();
@@ -43,19 +50,22 @@ public class GameView extends SurfaceView {
     private int killedBad = 0;
     private int killedGood = 0;
     private int killedTilin = 0;
-    private Context cntx;
+    private Context ctx;
     private List<String> vips;
     private Paint paint = new Paint();
     private List<String> pushedVips;
     private Vibrator vibrator;
+    private int hardVipHighTimes = 0;
+    private int hardVipMiddleTimes = 0;
+    private int hardVipLowTimes = 0;
 
     public GameView(Context context) {
         super(context);
-        cntx = context;
+        ctx = context;
         sm = new SoundManager(context);
         gameLoopThread = new GameLoopThread(this);
         holder = getHolder();
-        vibrator = (Vibrator) cntx.getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator = (Vibrator) ctx.getSystemService(Context.VIBRATOR_SERVICE);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         //getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -110,18 +120,15 @@ public class GameView extends SurfaceView {
                 vips.add(name);
             }
         }
-/*        for (int i = 0; i < vips.size(); i++) {
-            System.out.println("vips[i] = " + vips.get(i));
-        }*/
         pushedVips = new ArrayList<>();
     }
 
     private void createSprites() {
         for (int i = 0; i < 7; i++) {
-            addAllBads();
+            addAllBadSprites();
         }
         for (int i = 0; i < 3; i++) {
-            addAllGoods();
+            addAllGoodSprites();
         }
     }
 
@@ -153,8 +160,8 @@ public class GameView extends SurfaceView {
             }
             canvas.drawText("Time: " + tiempo, 40, 30, paint);
             canvas.drawText("VIPs: " + pushedVips.size() + " / " + vips.size(), 40, 60, paint);
-            canvas.drawText("B: " + killedBad, getWidth() - 80, 30, paint);
-            canvas.drawText("G: " + killedGood, getWidth() - 80, 60, paint);
+            canvas.drawText(" ✓ : " + killedBad, getWidth() - 110, 30, paint);
+            canvas.drawText("✗: " + killedGood, getWidth() - 110, 60, paint);
             if (tiempo == 0) {
                 sm.pauseSound(playedFondoId);
                 gameLoopThread.setRunning(false);
@@ -165,15 +172,15 @@ public class GameView extends SurfaceView {
 					System.out.println("InterruptedException = " + ie);
 				}*/
                 launchResults();
-/*				Intent intent = new Intent(cntx, Results.class);
+/*				Intent intent = new Intent(ctx, Results.class);
 				intent.putExtra("record", killed + "");
-				cntx.startActivity(intent);*/
+				ctx.startActivity(intent);*/
             }
         } catch (NullPointerException npe) {
             sm.pauseSound(playedFondoId);
             gameLoopThread.setRunning(false);
             gameLoopThread.interrupt();
-            System.out.println("AQUI TERMINA EL JUEGO = " + npe);
+//            System.out.println("AQUI TERMINA EL JUEGO = " + npe);
         }
     }
 
@@ -191,12 +198,7 @@ public class GameView extends SurfaceView {
                             sm.playSound(SoundFX.POP, 1, 1, 0);
                             killedBad++;
                             if (killedBad % 5 == 0) {
-                                Random random = new Random();
-                                String vipName = vips.get(random.nextInt(vips.size()));
-                                int resId = getResources().getIdentifier(vipName, "drawable", cntx.getPackageName());
-                                sprites.add(createSprite(resId, Sprite.TYPE_TILIN, vipName));
-/*                                resId = getResources().getIdentifier("vips_hacerlade_superpedo_32_g", "drawable", cntx.getPackageName());
-                                sprites.add(createSprite(resId, Sprite.TYPE_TILIN, "vips_hacerlade_superpedo_32_g"));*/
+                                addVIPSprite();
                             }
                             sprites.remove(sprite);
                             temps.add(new TempSprite(temps, this, x, y, bmpDrop));
@@ -204,7 +206,7 @@ public class GameView extends SurfaceView {
                             killedGood++;
                             sm.playSound(SoundFX.SCREAM, 1, 1, 0);
                             vibrator.vibrate(5);
-                            addAllBads();
+                            addAllBadSprites();
 
                             sprites.remove(sprite);
                             temps.add(new TempSprite(temps, this, x, y, bmpDrop));
@@ -214,21 +216,21 @@ public class GameView extends SurfaceView {
                             }
                             tiempo++;
                             killedTilin++;
-//                            int soundId = getResources().getIdentifier(sprite.getTilinRawName(), "raw", cntx.getPackageName());
-/*                            sm.getSoundMap().put(SoundFX.TILIN, sm.getSoundPool().load(cntx, soundId, 1));
+//                            int soundId = getResources().getIdentifier(sprite.getTilinRawName(), "raw", ctx.getPackageName());
+/*                            sm.getSoundMap().put(SoundFX.TILIN, sm.getSoundPool().load(ctx, soundId, 1));
                             SoundPool.OnLoadCompleteListener listener = mock(SoundPool.OnLoadCompleteListener.class);
                             sm.getSoundPool().setOnLoadCompleteListener();
                             sm.playSound(SoundFX.TILIN, 1, 1, 0);*/
-                            int soundId = getResources().getIdentifier(sprite.getTilinRawName(), "raw", cntx.getPackageName());
-                            sm.playTilinSound(soundId, 1, 1, 0, cntx);
+                            int soundId = getResources().getIdentifier(sprite.getTilinRawName(), "raw", ctx.getPackageName());
+                            sm.playTilinSound(soundId, 1, 1, 0, ctx);
                             vibrator.vibrate(10);
                             sprites.remove(sprite);
                             /* Every 2 vips pushed, add more bads */
-                            if (pushedVips.size() % 2 == 0) {
-                                addAllBads();
+                            if (killedTilin % 2 == 0) {
+                                addAllBadSprites();
                             }
 
-                            int resId = getResources().getIdentifier(sprite.getTilinDrawableName(), "drawable", cntx.getPackageName());
+                            int resId = getResources().getIdentifier(sprite.getTilinDrawableName(), "drawable", ctx.getPackageName());
                             bmpTilin = BitmapFactory.decodeResource(getResources(), resId);
                             temps.add(new TempSprite(temps, this, x, y, bmpTilin));
                         }
@@ -247,15 +249,15 @@ public class GameView extends SurfaceView {
         String[] pushedVipsArray = pushedVips.toArray(new String[0]);
         sm.pauseSound(playedFondoId);
         gameLoopThread.setRunning(false);
-        Intent intent = new Intent(cntx, Results.class);
+        Intent intent = new Intent(ctx, Results.class);
         intent.putExtra("killedBad", killedBad);
         intent.putExtra("killedGood", killedGood);
         intent.putExtra("pushedVipsArray", pushedVipsArray);
-        cntx.startActivity(intent);
-        ((Activity) cntx).finish();
+        ctx.startActivity(intent);
+        ((Activity) ctx).finish();
     }
 
-    private void addAllBads() {
+    private void addAllBadSprites() {
         sprites.add(createSprite(R.drawable.bad1, Sprite.TYPE_BAD));
         sprites.add(createSprite(R.drawable.bad2, Sprite.TYPE_BAD));
         sprites.add(createSprite(R.drawable.bad3, Sprite.TYPE_BAD));
@@ -264,12 +266,58 @@ public class GameView extends SurfaceView {
         sprites.add(createSprite(R.drawable.bad6, Sprite.TYPE_BAD));
     }
 
-    private void addAllGoods() {
+    private void addAllGoodSprites() {
         sprites.add(createSprite(R.drawable.good1, Sprite.TYPE_GOOD));
         sprites.add(createSprite(R.drawable.good2, Sprite.TYPE_GOOD));
         sprites.add(createSprite(R.drawable.good3, Sprite.TYPE_GOOD));
         sprites.add(createSprite(R.drawable.good4, Sprite.TYPE_GOOD));
         sprites.add(createSprite(R.drawable.good5, Sprite.TYPE_GOOD));
         sprites.add(createSprite(R.drawable.good6, Sprite.TYPE_GOOD));
+    }
+
+    private void addVIPSprite() {
+        Random random = new Random();
+        String vipName = vips.get(random.nextInt(vips.size()));
+        if (vipName == HARD_VIP_HIGH) {
+            hardVipHighTimes++;
+//            System.out.println("*************** VIP H = " + vipName + " " + hardVipHighTimes);
+            if (hardVipHighTimes == hardVipHighLimit) {
+//                System.out.println("HHHHHHHHHHHHHHHHHHHHH");
+                addVIPSpriteByName(vipName, Sprite.TYPE_TILIN);
+                hardVipHighTimes = 0;
+            } else {
+                addVIPSprite();
+            }
+        } else if (vipName == HARD_VIP_MIDDLE) {
+            hardVipMiddleTimes++;
+//            System.out.println("*************** VIP M = " + vipName + " " + hardVipMiddleTimes);
+            if (hardVipMiddleTimes == hardVipMiddleLimit) {
+//                System.out.println("MMMMMMMMMMMMMMMMMMMMM");
+                addVIPSpriteByName(vipName, Sprite.TYPE_TILIN);
+                hardVipMiddleTimes = 0;
+            } else {
+                addVIPSprite();
+            }
+        } else if (vipName == HARD_VIP_LOW) {
+            hardVipLowTimes++;
+//            System.out.println("*************** VIP L  = " + vipName + " " + hardVipLowTimes);
+            if (hardVipLowTimes == hardVipLowLimit) {
+//                System.out.println("LLLLLLLLLLLLLLLL");
+                addVIPSpriteByName(vipName, Sprite.TYPE_TILIN);
+                hardVipLowTimes = 0;
+            } else {
+                addVIPSprite();
+            }
+        } else {
+            addVIPSpriteByName(vipName, Sprite.TYPE_TILIN);
+        }
+//        addVIPByName("vips_hacerlade_superpedo_32_g", Sprite.TYPE_TILIN);
+/*      int resId = getResources().getIdentifier("vips_hacerlade_superpedo_32_g", "drawable", ctx.getPackageName());
+        sprites.add(createSprite(resId, Sprite.TYPE_TILIN, "vips_hacerlade_superpedo_32_g"));*/
+    }
+
+    private void addVIPSpriteByName(String vipName, int spriteType) {
+        int resId = getResources().getIdentifier(vipName, "drawable", ctx.getPackageName());
+        sprites.add(createSprite(resId, spriteType, vipName));
     }
 }

@@ -54,7 +54,6 @@ public class MainActivity extends Activity {
 
     @Override
     public void onStop() {
-        System.out.println("LLEGA onStop");
 //        if (isFinishing()) {
         super.onStop();
         finish();
@@ -64,7 +63,6 @@ public class MainActivity extends Activity {
 
     @Override
     public void onDestroy() {
-        System.out.println("LLEGA onDestroy");
 //        if (isFinishing()) {
         super.onDestroy();
         finish();
@@ -76,12 +74,10 @@ public class MainActivity extends Activity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         //Handle the back button
         if(keyCode == KeyEvent.KEYCODE_BACK) {
-            System.out.println("Fue el back button desde MAIN");
             super.onDestroy();
             finish();
             return true;
         } else {
-            System.out.println("NO fue el back button desde MAIN");
             return false;
         }
     }

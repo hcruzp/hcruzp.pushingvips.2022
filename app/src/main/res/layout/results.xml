@@ -16,31 +16,39 @@
         android:id="@+id/txtRecordBad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_alignParentTop="true"/>
     <TextView
         android:id="@+id/txtRecordGood"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_below="@id/txtRecordBad"/>
     <TextView
         android:id="@+id/txtRecordTilin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_below="@id/txtRecordGood"/>
     <TextView
         android:id="@+id/txtRecordTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_below="@id/txtRecordTilin"/>
     <ViewFlipper
         android:id="@+id/myViewFlipper"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_below="@id/txtRecordTotal">
         <Button
             android:id="@+id/btnRestart"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:radius="35dp"
+            android:background="@color/clr_button"
+            android:textColor="@android:color/primary_text_dark"
             android:text="Restart" />
         <TextView
             android:id="@+id/txtLoading"

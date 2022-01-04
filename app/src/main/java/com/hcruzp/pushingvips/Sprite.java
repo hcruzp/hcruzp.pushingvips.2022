@@ -65,11 +65,10 @@ public class Sprite {
             this.width /= BMP_COLUMNS;
             this.height /= BMP_ROWS;
         } else {
-            System.out.println("bmp = " + this.bmp.toString());
             xSpeed *= 15;
             ySpeed *= 15;
-/*            xSpeed *= 10;
-            ySpeed *= 10;*/
+/*            xSpeed *= 5;
+            ySpeed *= 5;*/
         }
         this.spriteType = spriteType;
     }

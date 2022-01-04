@@ -1,6 +1,8 @@
 package com.hcruzp.pushingvips;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -44,17 +46,18 @@ public class Results extends Activity {
         int total = killedBad - (totalKilledGood) + totalKilledTilin;
 
 		TextView tvBad = (TextView) findViewById(R.id.txtRecordBad);
-		tvBad.setText("     Bad: " + killedBad + " " + killedBad);
+		tvBad.setTypeface(null, Typeface.BOLD);
+		tvBad.setText("✓ : " + killedBad + " = " + killedBad);
 		TextView tvGood = (TextView) findViewById(R.id.txtRecordGood);
-		tvGood.setText("     Good: " + killedGood + " " + totalKilledGood);
+		tvGood.setTypeface(null, Typeface.BOLD);
+		tvGood.setText("✗: " + killedGood + " = " + (totalKilledGood > 0 ? "-" : "") + totalKilledGood);
 		TextView tvTilin = (TextView) findViewById(R.id.txtRecordTilin);
-		tvTilin.setText("     VIPs: " + killedTilin + " " + totalKilledTilin);
+		tvTilin.setTypeface(null, Typeface.BOLD);
+		tvTilin.setText("VIPs: " + killedTilin + " = " + totalKilledTilin);
 		TextView tvTotal = (TextView) findViewById(R.id.txtRecordTotal);
-		tvTotal.setText("     Total: " + total);
+		tvTotal.setTypeface(null, Typeface.BOLD);
+		tvTotal.setText("Total: " + total);
 		ViewFlipper mFlipper = (ViewFlipper) findViewById(R.id.myViewFlipper);
-/*        for (int i = 0; i < pushedVips.size(); i++) {
-            System.out.println("Results pushedVips.get(i) = " + pushedVips.get(i));
-        }*/
 
 /*		RelativeLayout rl = (RelativeLayout) findViewById(R.id.idLinearLayout);
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -64,7 +67,6 @@ public class Results extends Activity {
 		imageView.setImageResource(R.drawable.vips_eso_tilin_32_g);
 		imageView.setLayoutParams(params);
 		rl.addView(imageView);*/
-
 
 		ResultsView resultsView = new ResultsView(this);
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -90,7 +92,6 @@ public class Results extends Activity {
 				startActivity(intent);*/
 
 				setContentView(new GameView(Results.this));
-				System.out.println("mFlipper = " + mFlipper);
 				mFlipper.showNext();
 //				finish();
 				return false;
@@ -103,11 +104,9 @@ public class Results extends Activity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 	    //Handle the back button
 	    if(keyCode == KeyEvent.KEYCODE_BACK) {
-	    	System.out.println("Fue el back button");
 	    	this.finish();
 	    	return true;
 	    } else {
-	    	System.out.println("NO fue el back button");
 	    	return false;
 	    }
 	}
@@ -120,5 +119,4 @@ public class Results extends Activity {
         	android.os.Process.killProcess(android.os.Process.myPid());
         //}
 	}*/
-	
 }
