@@ -5,6 +5,8 @@ import java.util.List;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import com.hcruzp.pushingvips.views.GameView;
+
 public class TempSprite {
     private float x;
     private float y;

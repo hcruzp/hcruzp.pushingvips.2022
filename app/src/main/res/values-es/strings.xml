@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Atrapa al VIP</string>
+    <string name="txt_main_rule1">Atrapa 5 chicos malos para desbloquear un VIP y atraparlo</string>
+    <string name="txt_main_rule2">No atrapes a las chicas</string>
+    <string name="txt_main_tap_here">Toca aquí para empezar</string>
+    <string name="txt_gameview_time">Tiempo</string>
+    <string name="txt_results_restart">Volver a jugar</string>
+    <string name="ads_app_id">ca-app-pub-2025705012965500~2502598193</string>
+    <string name="ads_unit_id_results">ca-app-pub-2025705012965500/6101666500</string>
+    <string name="test_device_phone">DC8CADF78306FE2450FD6ECCE5C4D3E3</string>
+    <string name="test_device_tablet">7DED5A070826CDE757D3AC6A4FB8DD03</string>
+</resources>

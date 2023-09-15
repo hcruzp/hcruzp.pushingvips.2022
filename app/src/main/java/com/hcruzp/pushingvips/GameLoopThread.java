@@ -3,6 +3,8 @@ package com.hcruzp.pushingvips;
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 
+import com.hcruzp.pushingvips.views.GameView;
+
 public class GameLoopThread extends Thread {
     private GameView view;
     private boolean running = false;

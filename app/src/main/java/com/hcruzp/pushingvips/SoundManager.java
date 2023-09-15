@@ -13,7 +13,7 @@ public class SoundManager {
 
 	/** enumeration of existing sounds **/
 	public enum SoundFX {
-		POP_CORK, BUBBLE_POP, FONDO
+		POP_CORK, BUBBLE_POP, FONDO, APPEARS_VIP
 	};
 
 	private int soundsamount = 6;
@@ -53,6 +53,7 @@ public class SoundManager {
 		soundMap.put(SoundFX.POP_CORK, soundPool.load(context, R.raw.popcork, 1));
 		soundMap.put(SoundFX.BUBBLE_POP, soundPool.load(context, R.raw.bubble_pop, 1));
 		soundMap.put(SoundFX.FONDO, soundPool.load(context, R.raw.fish, 1));
+		soundMap.put(SoundFX.APPEARS_VIP, soundPool.load(context, R.raw.appears, 1));
 	}
 
 	/**
@@ -86,7 +87,6 @@ public class SoundManager {
 	 */
 	public int playSound(SoundFX sound, float leftVolume, float rightVolume, int loop) {
 //		if (soundOn) {
-		System.out.println("soundMap.get(sound) = " + soundMap.get(sound));
 			return soundPool.play(soundMap.get(sound), leftVolume, rightVolume, 1, loop, 1.0f);
 /*		}
 		return 0;*/
@@ -94,12 +94,12 @@ public class SoundManager {
 
 	public int playTilinSound(int resId, float leftVolume, float rightVolume, int loop, Context cntx) {
 		int soundID = soundPool.load(cntx, resId, 1);
-		new Timer().schedule(new TimerTask() {
+		soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
 			@Override
-			public void run() {
+			public void onLoadComplete(SoundPool soundPool, int mySoundId, int status) {
 				soundPool.play(soundID, leftVolume, rightVolume, 1, loop, 1.0f);
 			}
-		}, 100L);
+		});
 		return 1;
 	}
 

@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">PushingVIPs</string>
+    <string name="app_name">Catch the VIP</string>
+    <string name="txt_main_rule1">Catch 5 bad guys to unlock a VIP and catch him</string>
+    <string name="txt_main_rule2">Don\'t catch the girls</string>
+    <string name="txt_main_tap_here">Tap here to start</string>
+    <string name="txt_gameview_time">Time</string>
+    <string name="txt_results_restart">Restart</string>
+    <string name="ads_app_id">ca-app-pub-2025705012965500~2502598193</string>
+    <string name="ads_unit_id_results">ca-app-pub-2025705012965500/6101666500</string>
+    <string name="test_device_phone">DC8CADF78306FE2450FD6ECCE5C4D3E3</string>
+    <string name="test_device_tablet">7DED5A070826CDE757D3AC6A4FB8DD03</string>
 </resources>

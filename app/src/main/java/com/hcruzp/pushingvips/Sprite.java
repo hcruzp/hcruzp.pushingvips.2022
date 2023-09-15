@@ -5,16 +5,17 @@ import java.util.Random;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.util.Log;
+
+import com.hcruzp.pushingvips.views.GameView;
 
 public class Sprite {
 
     int[] DIRECTION_TO_ANIMATION_MAP = {3, 1, 0, 2};
-    private static final int BMP_COLUMNS = 3;
+    private static final int BMP_COLUMNS = 4;
     private static final int BMP_ROWS = 4;
-    protected static final int TYPE_BAD = 1;
-    protected static final int TYPE_GOOD = 2;
-    protected static final int TYPE_TILIN = 3;
+    public static final int TYPE_BAD = 1;
+    public static final int TYPE_GOOD = 2;
+    public static final int TYPE_TILIN = 3;
     private int x;
     private int y;
     private int xSpeed;
@@ -65,8 +66,19 @@ public class Sprite {
             this.width /= BMP_COLUMNS;
             this.height /= BMP_ROWS;
         } else {
-            xSpeed *= 15;
-            ySpeed *= 15;
+            if (tilinFileName == GameView.HARD_VIP_HIGH) {
+                xSpeed = 150;
+                ySpeed = 120;
+            } else if (tilinFileName == GameView.HARD_VIP_MIDDLE) {
+                xSpeed = 130;
+                ySpeed = 100;
+            } else if (tilinFileName == GameView.HARD_VIP_LOW) {
+                xSpeed *= 30;
+                ySpeed *= 30;
+            } else {
+                xSpeed *= 20;
+                ySpeed *= 20;
+            }
 /*            xSpeed *= 5;
             ySpeed *= 5;*/
         }
